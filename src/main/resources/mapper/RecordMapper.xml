@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistence.RecordMapper">
+
+	<select id="getRecordByID" parameterType="Integer" resultType="com.bean.Record">
+		select * from record where recordID = #{0}
+	</select>
+	
+	<select id="getAllRecords" resultType="com.bean.Record">
+		select * from record 
+	</select>
+
+	<select id="getRecordsByUserID" resultType="com.bean.Record">
+		select * from record WHERE readerID=#{0}
+	</select>
+
+
+	<select id="queryRecords"  resultType="com.bean.Record">
+		select * from record 
+			where isReturn = #{record.isReturn}
+			<if test="month >0 ">AND borrowTime>= DATE_SUB(now(), INTERVAL #{month} MONTH ) </if>
+			<if test="record.readerID>0 "> AND readerID = #{record.readerID}</if>
+			<if test="record.bookName!=null and record.bookName!='' "> AND bookName like CONCAT('%',#{record.bookName},'%')</if>
+			<if test="record.readerName!=null and record.readerName!=''  "> AND readerName like CONCAT('%',#{record.readerName},'%') </if>
+		ORDER BY borrowTime DESC
+		limit #{2},#{3}
+	</select>
+	
+	<select id="queryRecordsCount"  resultType="Integer">
+		select count(*) from record
+		where isReturn = #{record.isReturn}
+		<if test="month >0 "> AND borrowTime>= DATE_SUB(now(), INTERVAL #{month} MONTH ) </if>
+		<if test="record.readerID>0 "> AND readerID = #{record.readerID}</if>
+		<if test="record.bookName!=null and record.bookName!='' "> AND bookName like CONCAT('%',#{record.bookName},'%')</if>
+		<if test="record.readerName!=null and record.readerName!=''  "> AND readerName like CONCAT('%',#{record.readerName},'%') </if>
+	</select>
+	
+
+	<select id="getAlarmRecordsByPage" resultType="com.bean.Record">
+		select * from record 
+			where isReturn=0 and DATE_ADD(now(), INTERVAL 3 DAY) >= dueTime
+			limit #{0},#{1}
+	</select>
+
+	<select id="getAlarmRecordsCount" resultType="Integer">
+		select count(*) from record
+			where isReturn=0 and DATE_ADD(now(), INTERVAL 3 DAY) >= dueTime
+	</select>
+	
+	<insert id="addRecord" parameterType="com.bean.Record">
+		insert into Record(bookID,bookName, readerID, readerName, borrowTime, dueTime, isReturn, borrowOperator)
+			values(#{bookID}, #{bookName}, #{readerID}, #{readerName}, #{borrowTime}, #{dueTime}, 0, #{borrowOperator})
+	</insert>
+	
+	<update id="updateRecord" parameterType="com.bean.Record">
+		update Record
+			set isReturn=1, returnTime=#{returnTime}, returnOperator=#{returnOperator},rating=#{rating}
+				where recordID=#{recordID}
+	</update>
+	
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistence.AdministratorMapper">
+
+	<select id="getAdminByUserName" parameterType="String" resultType="com.bean.Administrator">
+		Select * From administrator Where userName=#{0}
+	</select>
+
+	<select id="getAdminByID" parameterType="Integer" resultType="com.bean.Administrator">
+		Select * From administrator Where adminID=#{0}
+	</select>
+	
+	<select id="getAdminsByPage" resultType="com.bean.Administrator">
+		Select adminID, userName From administrator order by adminID limit #{0} , #{1}
+	</select>
+	
+	<select id="getAdminsCount" resultType="Integer">
+		Select count(*) From administrator 
+	</select>
+	
+	<update id="updateAdmin" parameterType="com.bean.Administrator">
+	    update administrator set password = MD5(#{password}) where userName = #{userName}
+	</update>
+	
+	<insert id="addAdmin" parameterType="com.bean.Administrator">
+		insert into administrator(userName, password) values(#{userName}, MD5(#{password}));
+	</insert>
+	
+	<select id="login" parameterType="com.bean.Administrator" resultType="Integer">
+		select count(*) from administrator where userName=#{userName} AND password=MD5(#{password})
+	</select>
+	
+	<delete id="deleteAdmin" parameterType="String">
+		delete from administrator where userName=#{0}
+	</delete>
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistence.BookMapper">
+
+	<select id="getBookByID" parameterType="Integer" resultType="com.bean.Book">
+		select book.*, booktype.bookTypeName
+			from book left join bookType 
+				on book.booktypeID = booktype.booktypeID 
+					where bookID = #{0}
+	</select>
+	
+	<select id="getAllBooks" resultType="com.bean.Book">
+		select book.*, booktype.bookTypeName
+			from book left join bookType 
+				on book.booktypeID = booktype.booktypeID
+	</select>
+
+	<select id="getHotBooksByBorrowTimes" resultType="com.bean.Book">
+		select book.*, booktype.bookTypeName
+		from book left join bookType
+		on book.booktypeID = booktype.booktypeID
+		ORDER BY book.borrowTimes DESC
+		limit 0,#{0}
+	</select>
+
+	<select id="getHotBooksByRating" resultType="com.bean.Book">
+		select book.*, booktype.bookTypeName
+		from book left join bookType
+		on book.booktypeID = booktype.booktypeID
+		ORDER BY book.rating DESC
+		limit 0,#{0}
+	</select>
+
+	<select id="getBooksBy" resultType="com.bean.Book">
+		select book.*, booktype.bookTypeName
+			from book left join bookType 
+				on book.booktypeID = booktype.booktypeID 
+				where 1=1 
+				<if test="book.bookName!=null and book.bookName!='' "> AND book.bookName like CONCAT('%',#{book.bookName},'%') </if>
+				<if test="book.author!=null   and book.author!='' ">   AND book.author   like CONCAT('%',#{book.author},'%') </if>
+				<if test="book.publish!=null  and book.publish!='' ">   AND book.publish  like CONCAT('%',#{book.publish},'%') </if>
+				<if test="book.bookTypeID!=0"> AND booktype.bookTypeID = #{book.bookTypeID} </if>
+				<if test="book.translator!=null and book.translator!='' "> AND book.translator like CONCAT('%',#{book.translator},'%')</if>
+				<if test="book.ISBN!=null and book.ISBN!='' "> AND book.ISBN like CONCAT('%',#{book.ISBN},'%')</if>
+				limit #{1},#{2}
+	</select>
+	
+	<select id="getBooksCountBy" resultType="Integer">
+		select count(*) 
+			from book 
+				where 1=1 
+				<if test="book.bookName!=null and book.bookName!='' "> AND bookName like CONCAT('%',#{book.bookName},'%') </if>
+				<if test="book.author!=null   and book.author!='' ">   AND author   like CONCAT('%',#{book.author},'%') </if>
+				<if test="book.publish!=null  and book.publish!='' ">   AND publish  like CONCAT('%',#{book.publish},'%') </if>
+				<if test="book.bookTypeID!=0"> AND bookTypeID = #{book.bookTypeID} </if>
+				<if test="book.translator!=null and book.translator!='' "> AND translator like CONCAT('%',#{book.translator},'%')</if>
+				<if test="book.ISBN!=null and book.ISBN!='' "> AND ISBN like CONCAT('%',#{book.ISBN},'%')</if>
+	</select>
+	
+	<insert id="addBook" parameterType="com.bean.Book">
+		insert into book(bookName, author, publish, bookTypeID, translator, ISBN, price, inTime, totalNumber, nowNumber,description,rating,borrowTimes)
+			values(#{bookName}, #{author}, #{publish}, #{bookTypeID}, #{translator}, #{ISBN}, #{price}, #{inTime}, #{totalNumber}, #{nowNumber},#{description},0,0)
+	</insert>
+	
+	<update id="updateBook" parameterType="com.bean.Book">
+		update book 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="bookName!=null and bookName!='' "> bookName=#{bookName}, </if>
+			<if test="author!=null and author!='' "> author=#{author}, </if>
+			<if test="publish!=null and publish!='' "> publish=#{publish}, </if>
+			<if test="bookTypeID>0 "> bookTypeID=#{bookTypeID}, </if>
+			<if test="translator!=null and translator!='' "> translator=#{translator}, </if>
+			<if test="ISBN!=null and ISBN!='' "> ISBN=#{ISBN}, </if>
+			<if test="price>0 "> price=#{price}, </if>
+			<if test="totalNumber>0 "> totalNumber=#{totalNumber}, </if>
+			<if test="nowNumber>=0 "> nowNumber=#{nowNumber}, </if>
+			<if test="description!=null and description!='' "> description=#{description}, </if>
+			<if test="rating>0 "> rating=#{rating}, </if>
+			<if test="borrowTimes>0 "> borrowTimes=#{borrowTimes}, </if>
+		</trim>
+		where bookID=#{bookID}
+	</update>
+	
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistence.ReaderMapper">
+
+	<select id="getAllReaders"  resultType="com.bean.Reader">
+		select * from reader order by readerID 
+	</select>
+	
+	<select id="getReaderByPage" resultType="com.bean.Reader">
+		select * from reader order by readerID limit #{0},#{1}
+	</select>
+	
+	<select id="getReaderCount" resultType="Integer">
+		select count(*) from reader order by readerID 
+	</select>
+	
+	<select id="getReaderByID" parameterType="Integer" resultType="com.bean.Reader">
+		select * from reader where readerID=#{0}
+	</select>
+	
+	<select id="getReaderByName" parameterType="String" resultType="com.bean.Reader">
+		select * from reader where username=#{0}
+	</select>
+
+	<select id="queryReader" resultType="com.bean.Reader">
+		select * from reader 
+				where 1=1 
+				<if test="reader.readerTypeID>0 "> AND readerTypeID = #{reader.readerTypeID} </if>
+				<if test="reader.userName!=null and reader.userName!='' "> AND username like CONCAT('%',#{reader.userName},'%') </if>
+				<if test="reader.sex!=0 "> AND sex = #{reader.sex} </if>
+				<if test="reader.age>0 "> AND age = #{reader.age} </if>
+				<if test="reader.phone!=null and reader.phone!='' "> AND phone like CONCAT('%',#{reader.phone},'%') </if>
+				limit #{1},#{2}
+	</select>
+	
+	<select id="queryReaderCount" resultType="Integer">
+		select count(*) from reader 
+				where 1=1 
+				<if test="reader.readerTypeID>0 "> AND readerTypeID = #{reader.readerTypeID} </if>
+				<if test="reader.userName!=null and reader.userName!='' "> AND username like CONCAT('%',#{reader.userName},'%') </if>
+				<if test="reader.sex!=0 "> AND sex = #{reader.sex} </if>
+				<if test="reader.age>0 "> AND age = #{reader.age} </if>
+				<if test="reader.phone!=null and reader.phone!='' "> AND phone like CONCAT('%',#{reader.phone},'%') </if>
+	</select>
+	
+	<insert id="addReader" parameterType="com.bean.Reader" useGeneratedKeys="true" keyProperty="readerID">
+		insert into reader(readerTypeID, username, sex, age, password, phone,borrowBookNum)
+			values(#{readerTypeID}, #{userName}, #{sex}, #{age}, #{password}, #{phone},0)
+	</insert>
+	
+	<update id="updateReader" parameterType="com.bean.Reader">
+		update reader 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="readerTypeID>0 "> readerTypeID=#{readerTypeID}, </if>
+			<if test="sex>=0 "> sex=#{sex}, </if>
+			<if test="age>0 "> age=#{age}, </if>
+			<if test="borrowBookNum>=0 "> borrowBookNum=#{borrowBookNum}, </if>
+			<if test="password!=null and password!='' "> password=#{password}, </if>
+			<if test="phone!=null and phone!='' "> phone=#{phone}, </if>
+		</trim>
+		where readerID=#{readerID}
+	</update>
+	
+	<select id="login" resultType="Integer">
+		select count(*) from reader where username=#{0} and password=#{1}
+	</select>
+	
+</mapper>

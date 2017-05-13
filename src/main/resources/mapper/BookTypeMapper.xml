@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistence.BookTypeMapper">
+
+	<select id="getAllTypes"  resultType="com.bean.BookType">
+		select * from  bookType 
+	</select>
+	
+	<select id="getTypesByPage" resultType="com.bean.BookType">
+		select * from  bookType limit #{0},#{1}
+	</select>
+	
+	<select id="getTypesCount" resultType="Integer">
+		select count(*) from  bookType 
+	</select>
+
+	<select id="getTypeByID" resultType="com.bean.BookType">
+		select * from  bookType where bookTypeID=#{0}
+	</select>
+	
+	<insert id="addType" parameterType="com.bean.BookType">
+		insert into bookType(bookTypeName, description)
+			values(#{bookTypeName},#{description})
+	</insert>
+	
+	<update id="updateType" parameterType="com.bean.BookType">
+		update bookType set bookTypeName=#{bookTypeName}, description=#{description}
+		where bookTypeID=#{bookTypeID}
+	</update>
+	
+	<delete id="deleteType" parameterType="com.bean.BookType">
+		delete from bookType where bookTypeID=#{bookTypeID}
+	</delete>
+	
+</mapper>

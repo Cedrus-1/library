@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.persistence.ReaderTypeMapper">
+
+	<select id="getTypeByID" parameterType="Integer" resultType="com.bean.ReaderType">
+		select * from readertype where readerTypeID = #{0}
+	</select>
+	
+	<select id="getAllTypes" resultType="com.bean.ReaderType">
+		select * from readertype
+	</select>
+
+	<select id="getTypesByPage" resultType="com.bean.ReaderType">
+		select * from readertype limit #{0},#{1}
+	</select>
+	
+	<select id="getTypesCount" resultType="Integer">
+		select count(*) from readertype 
+	</select>
+	
+	<insert id="addType" parameterType="com.bean.ReaderType">
+		insert into readertype(name, books, days, description)
+			values(#{name}, #{books}, #{days}, #{description})
+	</insert>
+	
+	<update id="updateType" parameterType="com.bean.ReaderType">
+		update readertype 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name!=null and name!='' "> name=#{name}, </if>
+			<if test="books>0 "> books=#{books}, </if>
+			<if test="days>0 "> days=#{days}, </if>
+			<if test="description!=null and description!='' "> description=#{description}, </if>
+		</trim>
+		where readerTypeID=#{readerTypeID}
+	</update>
+	
+	<delete id="deleteType" parameterType="Integer">
+		delete from readertype where readerTypeID=#{0}
+	</delete>
+</mapper>
