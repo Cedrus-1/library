@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>图书管理系统 | 管理员</title>
+    <title>图书信息管理与推荐系统 | 管理员</title>
     <jsp:include page="include/commonfile.jsp"/>
 
 </head>

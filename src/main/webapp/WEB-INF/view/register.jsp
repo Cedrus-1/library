@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>图书管理系统 | 注册</title>
+    <title>图书信息管理与推荐系统 | 注册</title>
     <link rel="stylesheet" href="${path}/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="${path}/static/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="${path}/static/css/common.css">
@@ -23,7 +23,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h2  class="  login-head ">图书馆管理系统</h2>
+            <h2  class="  login-head ">图书信息管理与推荐系统</h2>
             <div class="row">
                 <div class="col-lg-12 control-label " align="center" id="message-info"></div>
             </div>

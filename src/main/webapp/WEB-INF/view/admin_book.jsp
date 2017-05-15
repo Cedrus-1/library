@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>图书管理系统 | 管理员</title>
+    <title>图书信息管理与推荐系统 | 图书管理</title>
     <jsp:include page="include/commonfile.jsp"/>
     <style>
         .table th, .table td {
@@ -108,7 +108,7 @@
                             <th>作者</th>
                             <th>出版社</th>
                             <th>分类</th>
-                            <th>翻译者</th>
+                            <%--<th>翻译者</th>--%>
                             <th>价格</th>
                             <th>在馆数量</th>
                             <th>操作</th>
@@ -121,7 +121,7 @@
                                 <td> ${book.author} </td>
                                 <td> ${book.publish}</td>
                                 <td> ${book.bookTypeName}</td>
-                                <td> ${book.translator}</td>
+                                <%--<td> ${book.translator}</td>--%>
                                 <td> ${book.price}</td>
                                 <td> ${book.nowNumber}</td>
                                 <td> <a class="btn btn-primary "  href="/admin/getBookInfo?bookID=${book.bookID}">修改</a>

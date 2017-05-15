@@ -52,7 +52,7 @@ public class LoginController {
                 session.setAttribute("login_status", "true");
                 attributes.addFlashAttribute("message", "SUCCESS");
                 attributes.addAttribute("readerID",reader.getReaderID());
-                return "redirect:/reader/index";
+                return "redirect:/reader/bookList";
             } else {
                 attributes.addFlashAttribute("error", "用户名或密码不正确");
                 return "redirect:/login";
@@ -70,7 +70,7 @@ public class LoginController {
                     session.setAttribute("type", "admin");
                     session.setAttribute("login_status", "true");
                     attributes.addAttribute("adminID",administrator.getAdminID());
-                    return "redirect:/admin/index";
+                    return "redirect:/admin/bookList";
                 } else {
                     attributes.addFlashAttribute("error", "用户名或密码不正确");
                     return "redirect:/login";
@@ -102,7 +102,7 @@ public class LoginController {
             session.setAttribute("type", "reader");
             session.setAttribute("login_status", "true");
             attributes.addFlashAttribute("message", "成功");
-            return "redirect:/reader/index";
+            return "redirect:/reader/bookList";
         }
         attributes.addFlashAttribute("error", "此用户名太火爆，已经被注册！");
         return "redirect:/register";

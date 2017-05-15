@@ -160,6 +160,7 @@ public class RecommendServiceImpl implements RecommendService{
             }
         }
         bookResult.addAll(bookSet);
+        Collections.shuffle(bookResult);
         return bookResult;
     }
 }

@@ -38,11 +38,11 @@ public class ReaderController {
     @Autowired
     private RecordService recordService;
 
-    @RequestMapping("/index")
+    /*@RequestMapping("/index")
     public ModelAndView readerIndex(){
         ModelAndView mav = new ModelAndView("reader_index");
         return mav;
-    }
+    }*/
 
     @RequestMapping("/info")
     public ModelAndView readerInfo(HttpSession session){
@@ -161,7 +161,7 @@ public class ReaderController {
         int readerID = (int)session.getAttribute("userID");
         List<Book> books = recommendService.getRecommendBookByID(readerID);
         if(books.size()>10){
-            books.subList(0,9);
+            books = books.subList(0,9);
         }
         mav.addObject("books",books);
         return mav;

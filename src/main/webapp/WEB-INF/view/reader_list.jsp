@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="zh-CN" class="ax-vertical-centered">
 <head>
-    <title>图书管理系统 | 读者管理</title>
+    <title>图书信息管理与推荐系统 | 读者管理</title>
     <style>
         .table th, .table td {
             text-align: center;

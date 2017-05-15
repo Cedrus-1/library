@@ -36,11 +36,11 @@ public class AdministratorController {
 	private RecordService recordService;
 
 
-	@RequestMapping("/index")
+	/*@RequestMapping("/index")
 	public ModelAndView adminIndex(){
 		ModelAndView mav = new ModelAndView("admin_index");
 		return mav;
-	}
+	}*/
 
 	@RequestMapping("/password")
 	public ModelAndView readerPassword(){

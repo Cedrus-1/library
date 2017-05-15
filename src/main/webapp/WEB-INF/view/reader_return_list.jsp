@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>图书管理系统 | 借阅记录</title>
+    <title>图书信息管理与推荐系统 | 归还记录</title>
     <jsp:include page="include/commonfile.jsp"/>
     <style>
         .table th, .table td {
